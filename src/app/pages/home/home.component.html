@@ -1,0 +1,113 @@
+<div class="m-10">
+  <form
+    class="w-full max-w-sm"
+    [formGroup]="subscribeNotificationForm"
+    (ngSubmit)="subscribeNotification()"
+  >
+    <div class="flex items-center border-b border-teal-500 py-2">
+      <input
+        class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+        type="text"
+        placeholder="Enter User ID Here"
+        aria-label="Id"
+        name="id"
+        formControlName="id"
+      />
+      <button
+        class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+        type="submit"
+      >
+        Subscribe
+      </button>
+    </div>
+    <p class="text-green-500 text-xs italic">{{ successMessage }}</p>
+  </form>
+</div>
+<div class="m-10">
+  <button
+    type="button"
+    class="relative inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    (click)="showNotification()"
+  >
+    <svg
+      class="w-4 h-4 me-2"
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      viewBox="0 0 20 16"
+    >
+      <path
+        d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"
+      />
+      <path
+        d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"
+      />
+    </svg>
+    <span class="sr-only">Notifications</span>
+    Messages
+    <div
+      class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900"
+    >
+      {{ count }}
+    </div>
+  </button>
+</div>
+
+<div class="m-10">
+  <form
+    class="w-full max-w-sm"
+    [formGroup]="sendNotificationForm"
+    (ngSubmit)="sendNotification()"
+  >
+    <div class="flex items-center border-b border-teal-500 py-2">
+      <input
+        class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+        type="text"
+        placeholder="Enter text here"
+        aria-label="content"
+        name="content"
+        formControlName="content"
+      />
+      <button
+        class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="m-10" *ngIf="isNotificationVisible">
+  <div class="flex gap-8">
+    <h1 class="text-2xl font-bold">Notifications</h1>
+  <button
+  *ngIf="notifications.length > 0"
+class="flex items-center border-b border-teal-500 py-2 bg-gray-200 cursor-pointer"
+(click)="markAllAsSeen()"
+>
+<p>Mark all as seen</p>
+</button>
+</div>
+  <ul>
+    <li *ngFor="let notification of notifications">
+      <div *ngIf="notification.seen" class="flex items-center border-b border-teal-500 py-2">
+        <p>{{ notification.content }}</p>
+        <button (click)="deleteNotification(notification.id)" class="ml-2 text-red-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div (click)="setNotificationToSeen(notification.id)" *ngIf="!notification.seen" class="flex items-center border-b border-teal-500 py-2 bg-gray-200 cursor-pointer">
+        <p>{{ notification.content }}</p>
+        <button (click)="deleteNotification(notification.id)" class="ml-2 text-red-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </li>
+  </ul>
+
+</div>
